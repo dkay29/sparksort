@@ -7,7 +7,7 @@ public class OffheapQuickSort {
         this.osm = osm;
     }
     public void sort() {
-        quickSort(0,osm.getEntryCount());
+        quickSort(0,osm.getEntryCount()-1);
     }
     private void quickSort(long begin, long end) {
         if (begin<end) {

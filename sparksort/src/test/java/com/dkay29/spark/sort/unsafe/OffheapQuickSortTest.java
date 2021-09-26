@@ -14,7 +14,7 @@ public class OffheapQuickSortTest {
     @Test
     public void testSorting() {
         Random random = new Random(12345);
-        OffSortingMemory osm = new OffSortingMemory(1000L, 100);
+        OffSortingMemory osm = new OffSortingMemory(10000L, 100);
         for (long i = 0; i < osm.getEntryCount(); i++) {
             byte[] val = new byte[osm.getEntrySize()];
             for (int j = 0; j < val.length; j++) {
@@ -25,7 +25,6 @@ public class OffheapQuickSortTest {
         OffheapQuickSort qs = new OffheapQuickSort(osm);
         qs.sort();
         byte[] prior = new byte[osm.getEntrySize()];
-        System.out.println("---------------------");
         for (int i = 0; i < prior.length; prior[i++] = -128) ;
         for (long i = 0; i < osm.getEntryCount(); i++) {
             byte[] v = osm.get(i);
@@ -43,7 +42,7 @@ public class OffheapQuickSortTest {
         }
         return sb.toString();
     }
-
+/*
     @Test
     public void testByteArrayCompare() {
         byte[][] vals = {{0, 0, 0}, {1, 0, 0}};
@@ -51,4 +50,6 @@ public class OffheapQuickSortTest {
         assertEquals(0, OffheapQuickSort.compare(vals[1], vals[1]));
         assertEquals(-1, OffheapQuickSort.compare(vals[0], vals[1]));
     }
+
+ */
 }
