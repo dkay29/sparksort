@@ -16,6 +16,7 @@ public class OffSortingMemory {
         this.entrySize = entrySize;
         try {
             address = getUnsafe().allocateMemory(size = (entryCount * entrySize * BYTE));
+            getUnsafe().setMemory(address, size, (byte) 0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -64,7 +65,18 @@ public class OffSortingMemory {
         return size;
     }
 
-    public void swapElements(int i, int j) {
+    public long getEntryCount() {
+        return entryCount;
+    }
+
+    public int getEntrySize() {
+        return entrySize;
+    }
+
+    public void swapElements(long i, long j) {
+        if (i == j) {
+            return;
+        }
         byte[] tmp = this.get(j);
         try {
             getUnsafe().copyMemory(address + i * entrySize, address + j * entrySize, entrySize);
@@ -74,7 +86,11 @@ public class OffSortingMemory {
         this.set(i, tmp);
     }
 
-    public void freeMemory() throws NoSuchFieldException, IllegalAccessException {
-        getUnsafe().freeMemory(address);
+    public void freeMemory() {
+        try {
+            getUnsafe().freeMemory(address);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

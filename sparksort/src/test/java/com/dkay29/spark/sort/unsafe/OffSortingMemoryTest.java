@@ -32,6 +32,7 @@ public class OffSortingMemoryTest {
         assertEquals("11",getExceptionRunning(()->offSortingMemory.set(11,strToPaddedBytes("x",10))).getMessage());
     }
 
+
     private Exception getExceptionRunning(Runnable r) {
         Exception ex=null;
         try {
@@ -57,5 +58,27 @@ public class OffSortingMemoryTest {
         byte[] t =new byte[i];
         System.arraycopy(arr,0,t,0,i);
         return new String(t);
+    }
+
+    @Test
+    public void testDifferentElementSizes() {
+        for (int eleSize=1;eleSize<40;eleSize++) {
+            OffSortingMemory offSortingMemory = new OffSortingMemory(10,eleSize);
+            for(int ele=0;ele<10;ele++) {
+                byte[] val = new byte[eleSize];
+                for (int k=0;k<eleSize;k++) {
+                    val[k]=(byte)(ele+1);
+                }
+                offSortingMemory.set(ele,val);
+            }
+            for(int ele=9;ele>-1;ele--) {
+                byte[] val = offSortingMemory.get(ele);
+                assertEquals(eleSize,val.length);
+                for (int k=0;k<eleSize;k++) {
+                    assertEquals(ele+1,val[k]);
+                }
+            }
+            offSortingMemory.freeMemory();
+        }
     }
 }
