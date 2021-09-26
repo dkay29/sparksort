@@ -1,0 +1,7 @@
+package com.dkay29.spark.sort;
+
+public enum SortTypeEnum {
+    STRING_ASCENDING, STRING_DESCENDING,
+    NUMERIC_ASCENDING, NUMERIC_DESCENDING,
+    BINARY_ASCENDING, BINARY_DESCENDING
+}
